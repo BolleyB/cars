@@ -1,0 +1,21 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>Car Details</h1>
+
+<div class="card">
+  <div class="card-content">
+    <span class="card-title">{{ car.make }}</span>
+    <p>Type: {{car.type}}</p>
+    <p>Model: {{car.model }}</p>
+    <p>Engine: {{ car.engine }}</p>
+    <p>Description: {{ car.description|linebreaks }}</p>
+    {% if car.value > 0 %}
+    <p>Value: {{ car.value }}</p>
+    {% else %}
+    <p>Value: Unknown</p>
+    {% endif %} <img src="{{ car.image_url }}" alt="{{ car.make }} {{ car.model
+    }} Image"
+  </div>
+</div>
+
+{% endblock %}

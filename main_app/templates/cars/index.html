@@ -1,0 +1,19 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>Car List</h1>
+{% for car in cars %}
+<div class="card">
+  <a href="{% url 'detail' car.id %}">
+  <div class="card-content">
+    <div class="card-title">{{ car.make }}</div>
+    <p>Make: {{ car.model }}</p>
+    <p>Description: {{ car.description }}</p>
+    {% if car.value > 0 %}
+    <p>Value: ${{ car.value }}</p>
+    {% else %}
+    <p>Value: Unknown</p>
+    {% endif %}
+  </div>
+</div>
+
+{% endfor %} {% endblock %}
