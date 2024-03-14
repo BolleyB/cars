@@ -1,21 +1,85 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>Car Details</h1>
+<h1>Cat Details</h1>
 
-<div class="card">
-  <div class="card-content">
-    <span class="card-title">{{ car.make }}</span>
-    <p>Type: {{car.type}}</p>
-    <p>Model: {{car.model }}</p>
-    <p>Engine: {{ car.engine }}</p>
-    <p>Description: {{ car.description|linebreaks }}</p>
-    {% if car.value > 0 %}
-    <p>Value: {{ car.value }}</p>
-    {% else %}
-    <p>Value: Unknown</p>
-    {% endif %} <img src="{{ car.image_url }}" alt="{{ car.make }} {{ car.model
-    }} Image"
+<div class="row">
+  <div class="col s6">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{ car.manufacturer }}</span>
+        <p>Make: {{ car.make }}</p>
+        <p>Description: {{ car.description|linebreaks }}</p>
+        {% if car.value > 0 %}
+        <p>Value: {{ car.value }}</p>
+        {% else %}
+        <p>Value: Unknown</p>
+        {% endif %}
+      </div>
+      <div class="card-action">
+        <a href="{% url 'cars_update' car.id %}">Edit</a>
+        <a href="{% url 'cars_delete' car.id %}">Delete</a>
+      </div>
+    </div>
+  </div>
+  <!-- New Markup Below -->
+  <div class="col s6">
+    <table class="striped">
+      <thead>
+        <tr>
+          <th>Manufacturer</th>
+          <th>Headquarters</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ car.make.manufacturer }}</td>
+          <td>{{ car.make.get_head_display }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <!-- This is all new markup to be added just above the <script> tag -->
+    <hr />
+    <div class="row">
+      <div class="col s6">
+        <h3>{{ car.make }}'s Colors</h3>
+        {% if car.colors.count %} {% for color in car.colors.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              <span style="color: {{ color.color }}">{{ color.name }}</span>
+            </span>
+          </div>
+        </div>
+        {% endfor %} {% else %}
+        <h5>No Available Colors</h5>
+        {% endif %}
+      </div>
+      <!-- Available toys will come after this line -->
+      <div class="col s6">
+        <h3>Available Colors</h3>
+        {% if colors.count %} {% for color in colors.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              A <span style="color: {{ car.color }}">{{ car.color }}</span> {{
+              color.name }}
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn">Add</button>
+            </form>
+          </div>
+        </div>
+        {% endfor %} {% else %}
+        <h5>No Available Colors</h5>
+        {% endif %}
+      </div>
+    </div>
+    <!-- New Markup Above -->
   </div>
 </div>
-
 {% endblock %}
