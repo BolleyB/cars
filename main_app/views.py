@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
+from django.views.generic import ListView, DetailView, DeleteView
 from .models import Car, Color
 from .forms import CarForm, ColorForm
 
@@ -55,3 +56,25 @@ class AddColorToCar(FormView):
 def assoc_color(request, car_id, color_id):
     Car.objects.get(id=car_id).toys.add(color_id)
     return redirect('detail', car_id=car_id)
+
+def unassoc_color(request, car_id, color_id):
+    Car.objects.get(id=car_id).colors.remove(color_id)
+    return redirect('detail', car_id=car_id)
+
+class ColorList(ListView):
+    model = Color
+
+class ColorDetail(DetailView):
+    model = Color
+
+class ColorCreate(CreateView):
+    model = Color
+
+class ColorUpdate(UpdateView):
+    model = Color
+    fields = ['name', 'color']
+
+
+class ColorDelete(DeleteView):
+    model = Color
+    success_url = '/colors'

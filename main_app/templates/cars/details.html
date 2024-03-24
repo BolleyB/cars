@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>Cat Details</h1>
+<h1>{{car.make}} Details</h1>
 
 <div class="row">
   <div class="col s6">
@@ -48,7 +48,9 @@
         <div class="card">
           <div class="card-content">
             <span class="card-title">
-              <span style="color: {{ color.color }}">{{ color.name }}</span>
+              <span style="color: {% url 'unassoc_color' car.id color.id %}"
+                >{{ color.name }}</span
+              >
             </span>
           </div>
         </div>
@@ -62,13 +64,16 @@
         {% if colors.count %} {% for color in colors.all %}
         <div class="card">
           <div class="card-content">
-            <span class="card-title">
+            <div class="card-title">
               A <span style="color: {{ car.color }}">{{ car.color }}</span> {{
               color.name }}
-            </span>
+            </div>
           </div>
           <div class="card-action">
-            <form action="" method="POST">
+            <form
+              action="{% url 'assoc_color' car.id color.id %}"
+              method="POST"
+            >
               {% csrf_token %}
               <button type="submit" class="btn">Add</button>
             </form>
